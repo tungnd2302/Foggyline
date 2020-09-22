@@ -1,0 +1,8 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="sidebar.additional"  remove="true"/>
+        <referenceContainer name="content">
+            <block class="Foggyline\Office\Block\Form" name="foggyline_office_test_form" template="Foggyline_Office::form.phtml" cacheable="false" />
+        </referenceContainer>
+    </body>
+</page>

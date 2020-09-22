@@ -1,0 +1,28 @@
+<?php
+   $labels = $block->getAttribute();
+   $data   = $block->getEmployeeData(); 
+?>
+
+<h3>Danh sách nhân viên</h3>
+<a href="<?= $block->getUrl('*/*/form') ?>" class="action primary">Tạo</a>
+<table>
+   <tr>
+      <th>#</th>
+      <?php foreach($labels as $label): ?>
+         <th><?= $label['frontend_label'] ?></th>
+      <?php endforeach; ?>
+      <th colspan=2>Thao tác</th>  
+   </tr>
+   <?php foreach($data as $value): ?>
+      <tr>  
+            <td><?= $value['entity_id'] ?></td>
+            <?php foreach($labels as $label): ?>
+               <td><?= $value[$label['attribute_code']] ?></td>
+            <?php endforeach; ?>
+            <td>
+               <a href="<?= $block->getUrl('*/*/edit').'id/' .  $value['entity_id']; ?>" class="action primary">Edit</a>
+               <a href="<?= $block->getUrl('*/*/delete').'?id=' .  $value['entity_id']; ?>" class="action primary">Delete</a>
+            </td>
+      </tr>
+   <?php endforeach; ?>
+</table>

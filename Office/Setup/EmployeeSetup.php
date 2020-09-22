@@ -14,16 +14,25 @@ class EmployeeSetup extends EavSetup
                 'table' => $employeeEntity . '_entity',
                 'attributes' => [
                     'department_id' => [
-                        'type' => 'static',
+                        'type'   => 'static',
+                        'label'  => 'Phòng ban',
+                        'input'  => 'select',
+                        'source' => 'Foggyline\Office\Model\Source\Department'
                     ],
                     'email' => [
                         'type' => 'static',
+                        'label' => 'Email',
+                        'input' => 'text'
                     ],
                     'first_name' => [
                         'type' => 'static',
+                        'label' => 'Họ',
+                        'input' => 'text'
                     ],
                     'last_name' => [
                         'type' => 'static',
+                        'label' => 'Tên',
+                        'input' => 'text'
                     ],
                 ],
             ],

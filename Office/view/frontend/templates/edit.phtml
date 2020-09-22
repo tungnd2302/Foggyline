@@ -1,0 +1,49 @@
+<?php 
+    $elemts   = $block->getAttribute();
+    $employee = $block->getEmployeeData();
+?>
+<form class="form contact"
+      action="<?php echo $block->getUrl('*/*/save'); ?>"
+      id="contact-form"
+      method="post"
+      enctype="multipart/form-data"
+      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+      data-mage-init='{"validation":{}}'>
+    <input type="hidden" name='entity_id' value="<?= $employee['entity_id'] ?>" />
+    <?php foreach($elemts as $elemt): ?>
+        <?php if($elemt['frontend_input'] == 'text'): ?>
+            <fieldset class="fieldset">
+                <div class="field name required">
+                    <label class="label" for="fullname"><span><?= $elemt['frontend_label'] ?></span></label>
+                    <div class="control">
+                        <input value=<?= $employee[$elemt['attribute_code']] ?> name="<?= $elemt['attribute_code'] ?>" title="<?= $block->escapeHtmlAttr(__('Fullname')) ?>"  class="input-text" type="<?php echo $elemt['frontend_input'] ?>" data-validate="{required:true}"/>
+                    </div>
+                </div>
+            </fieldset>
+        <?php endif; ?>
+
+        <?php if($elemt['frontend_input'] == 'select'): ?>
+            <fieldset class="fieldset">
+                <label class="label" for="fullname"><span><?= $elemt['frontend_label'] ?></span></label>
+                <div class="control">
+                    <select name = "<?= $elemt['attribute_code'] ?>" class="input-text" >
+                        <?php $items = $block->getOptions($elemt['attribute_code']); ?>
+                        <?php foreach($items as $item): ?>
+                            <?php $selected = ($item['entity_id'] == $employee[$elemt['attribute_code']]) ? "selected='true'" : '' ?>
+                            <option <?= $selected ?> value ="<?= $item['entity_id'] ?>" ><?= $item['name'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </fieldset>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" title="<?= $block->escapeHtmlAttr(__('Save')) ?>" class="action submit primary">
+                <span><?= $block->escapeHtml(__('Save')) ?></span>
+            </button>
+        </div>
+    </div>
+</form>
+<script src="https://cdn.ckeditor.com/4.11.2/standard/ckeditor.js"></script>
+<script>CKEDITOR.replace( 'content' );</script>
