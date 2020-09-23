@@ -199,5 +199,22 @@ class UpgradeData implements UpgradeDataInterface
             $setup->endSetup();
         }
 
+        if (version_compare($context->getVersion(), '1.3.1', '<=')) {
+            $setup->startSetup();
+            $data = [
+                ['name' => 'Kinh doanh'],
+                ['name' => 'Công nghệ'],
+                ['name' => 'Dịch vụ'],
+                ['name' => 'CSKH'],
+            ];
+            foreach ($data as $bind) {
+                $setup->getConnection()
+                  ->insertForce($setup->getTable('foggyline_office_department'), $bind);
+            }
+            $setup->endSetup();
+        }
+
+
+
     }
 }

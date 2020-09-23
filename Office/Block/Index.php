@@ -34,6 +34,7 @@ class Index extends Template
     public function getEmployeeData()
     {
         $items = $this->_employeeFactory->create()->getCollection()->addAttributeToSelect('*')->getItems();
+        $loadedData = [];
 
         foreach($items as $contact) { 
             $itemData = $contact->getData();
