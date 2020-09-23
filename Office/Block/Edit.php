@@ -18,13 +18,15 @@ class Edit extends Template
         PageFactory $pageFactory,
         \Magento\Eav\Model\ResourceModel\Entity\Attribute\Collection $collection,
         \Foggyline\Office\Model\EmployeeFactory $employeeFactory,
-        \Magento\Framework\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\ResourceConnection $resourceConnection
     )
     {
         $this->_pageFactory = $pageFactory;
         $this->_collection = $collection;
         $this->_coreRegistry = $coreRegistry;
         $this->_employeeFactory = $employeeFactory;
+        $this->_resourceConnection = $resourceConnection;
         
         return parent::__construct($context);
     }
@@ -36,7 +38,8 @@ class Edit extends Template
 
     public function getAttribute()
     {
-        $coll  = $this->_collection->addFieldToSelect('*')->addFieldToFilter(\Magento\Eav\Model\Entity\Attribute\Set::KEY_ENTITY_TYPE_ID, 9);
+        $entity = $this->getEntityTypeId();
+        $coll  = $this->_collection->addFieldToSelect('*')->addFieldToFilter(\Magento\Eav\Model\Entity\Attribute\Set::KEY_ENTITY_TYPE_ID, $entity['entity_type_id']);
         $items = $coll->load()->getItems();
         foreach($items as $contact)
         { 
@@ -66,5 +69,15 @@ class Edit extends Template
         }
         
         return $data;
+    }
+
+    public function getEntityTypeId() 
+    {
+        $resource = $this->_resourceConnection->getConnection();
+        $tableName  = $this->_resourceConnection->getTableName('eav_entity_type');
+        $sql = "select entity_type_id from eav_entity_type where entity_type_code = 'foggyline_office_employee' LIMIT 1";
+        $result = $resource->fetchAll($sql);
+
+        return $result[0];
     }
 }
